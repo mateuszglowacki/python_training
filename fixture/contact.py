@@ -20,9 +20,8 @@ class ContactHelper:
 
     def modify_contact_by_index(self, index, new_contact_data):
         wd = self.app.wd
-        self.select_contact_by_index(index)
         # init contact edition
-        wd.find_element_by_xpath("//img[@alt='Edit']").click()
+        wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
         # edit contact
         self.fill_contact_form(new_contact_data)
         # submit contact update
@@ -95,7 +94,7 @@ class ContactHelper:
 
     def return_to_home_page(self):
         wd = self.app.wd
-        if not (wd.current_url.endswith("/index.php") and len(wd.find_elements_by_name("searchString")) > 0):
+        if not (wd.current_url.endswith("/index.php") and len(wd.find_elements_by_name("searchString")) == 0):
             wd.find_element_by_link_text("home").click()
 
     def count(self):
