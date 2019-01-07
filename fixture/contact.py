@@ -95,7 +95,7 @@ class ContactHelper:
 
     def return_to_home_page(self):
         wd = self.app.wd
-        if not (wd.current_url.endswith("/index.php")):
+        if not (wd.current_url.endswith("/index.php") and len(wd.find_elements_by_name("searchString")) > 0):
             wd.find_element_by_link_text("home").click()
 
     def count(self):
