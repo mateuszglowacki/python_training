@@ -14,7 +14,7 @@ class ContactHelper:
         # fill contact form
         self.fill_contact_form(contact)
         # submit contact creation
-        wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
+        wd.find_element_by_css_selector('input[type="submit"]').click()
         self.return_to_home_page()
         self.contact_cache = None
 
@@ -70,7 +70,7 @@ class ContactHelper:
         wd = self.app.wd
         self.select_contact_by_index(index)
         # submit deletion
-        wd.find_element_by_xpath("//input[@value='Delete']").click()
+        wd.find_element_by_css_selector('input[value="Delete"]').click()
         wd.switch_to_alert().accept()
         wd.switch_to_default_content()
         self.return_to_contacts_page()
