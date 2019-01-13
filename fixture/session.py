@@ -11,10 +11,10 @@ class SessionHelper:
         wd.find_element_by_name("pass").clear()
         wd.find_element_by_name("pass").send_keys(password)
         wd.find_element_by_css_selector('input[type="submit"]').click()
+        self.ensure_login_credentials(username, password)
 
     def logout(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("Logout").click()
         wd.find_element_by_link_text("Logout").click()
 
     def ensure_logout(self):
@@ -40,3 +40,10 @@ class SessionHelper:
             else:
                 self.logout()
         self.login(username, password)
+
+    def ensure_login_credentials(self, username, password):
+        if self.is_logged_in():
+            if self.is_logged_in_as(username):
+                return
+        else:
+            raise ValueError("Wrong credentials %s:%s" % (username, password))
