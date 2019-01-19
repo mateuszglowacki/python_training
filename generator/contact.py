@@ -1,4 +1,4 @@
-from model.group import Group
+from model.contact import Contact
 import random
 import string
 import os.path
@@ -8,13 +8,13 @@ import sys
 
 
 try:
-    opts, arg = getopt.getopt((sys.argv[1:]), "n:f:", ["number of groups", "file"])
+    opts, arg = getopt.getopt((sys.argv[1:]), "n:f:", ["number of contacts", "file"])
 except getopt.GetoptError as err:
     getopt.usage()
     sys.exit(2)
 
 n = 5
-f = "data/groups.json"
+f = "data/contacts.json"
 
 for o, a in opts:
     if o == "-n":
@@ -24,13 +24,15 @@ for o, a in opts:
 
 
 def random_string(prefix, maxlen):
-    symbols = string.ascii_letters + string.digits + string.punctuation + " "*10
+    symbols = string.ascii_letters + string.digits + " "*5
     return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
 
 
-testdata = [Group(name="", header="", footer="")] + [
-    Group(name=random_string("name", 10), header=random_string("header", 20), footer=random_string("footer", 20))
-    for i in range(n)
+testdata = [Contact(firstname="", lastname="", mainaddress="", phone="", email1="")] + [
+    Contact(firstname=random_string("name", 10), lastname=random_string("surname", 15),
+            mainaddress=random_string("Address", 20), phone="".join([random.choice(string.digits) for i in range(9)]),
+            email1=random_string("", 10) + "@" + random_string("", 10) + "." + random_string("", 10))
+    for i in range(5)
 ]
 
 file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", f)
