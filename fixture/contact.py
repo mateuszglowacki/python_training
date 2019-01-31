@@ -30,6 +30,18 @@ class ContactHelper:
         self.return_to_home_page()
         self.contact_cache = None
 
+    def modify_contact_by_id(self, contact):
+        wd = self.app.wd
+        # init contact edition
+        text = "edit.php?id=" + str(contact.id)
+        wd.find_element_by_css_selector("a[href*='%s']" % text).click()
+        # edit contact
+        self.fill_contact_form(contact)
+        # submit contact update
+        wd.find_element_by_name("update").click()
+        self.return_to_home_page()
+        self.contact_cache = None
+
     def fill_contact_form(self, contact):
         self.change_field_value("firstname", contact.firstname)
         self.change_field_value("middlename", contact.middlename)
@@ -77,6 +89,16 @@ class ContactHelper:
         self.return_to_contacts_page()
         self.contact_cache = None
 
+    def delete_contact_by_id(self, id):
+        wd = self.app.wd
+        self.select_contact_by_id(id)
+        # submit deletion
+        wd.find_element_by_css_selector('input[value="Delete"]').click()
+        wd.switch_to_alert().accept()
+        wd.switch_to_default_content()
+        self.return_to_contacts_page()
+        self.contact_cache = None
+
     def select_first_contact(self):
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
@@ -84,6 +106,10 @@ class ContactHelper:
     def select_contact_by_index(self, index):
         wd = self.app.wd
         wd.find_elements_by_name("selected[]")[index].click()
+
+    def select_contact_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
 
     def delete_first_contact(self):
         wd = self.app.wd
