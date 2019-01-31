@@ -36,5 +36,17 @@ class DbFixture:
             cursor.close()
         return list
 
+    def get_detailed_contact_list(self):
+        list = []
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute("select id, firstname, lastname, home, mobile, work, phone2, email, email2, email3, address from addressbook where deprecated is null")
+            for row in cursor:
+                (id, firstname, lastname, home, mobile, work, phone2, email, email2, email3, address) = row
+                list.append(Contact(id=str(id), firstname=firstname, lastname=lastname, phone=home, mobile=mobile, work=work, phone2=phone2, email1=email, email2=email2, email3=email3, mainaddress=address))
+        finally:
+            cursor.close()
+        return list
+
     def destroy(self):
         self.connection.close()
